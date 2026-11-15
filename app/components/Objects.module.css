@@ -1,0 +1,546 @@
+/* top-left anchored, not -50% centred, so it lands on whole pixels (sharp text) */
+.object {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: var(--page-w, 100vw);
+  height: 100svh;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.1),
+    0 24px 50px -24px rgb(0 0 0 / 0.45);
+  visibility: hidden;
+}
+
+/* darkens as more lands on top */
+.shade {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* album */
+.album {
+  height: auto;
+  /* taller than the screen, torn edge only shows after scrolling */
+  min-height: 130svh;
+  box-shadow: none;
+  /* drop-shadow, not box-shadow, so it follows the torn edge */
+  filter: drop-shadow(0 18px 28px rgb(0 0 0 / 0.3));
+}
+
+/* texture: Unsplash "Off-white textured paper with creases" */
+.albumSheet {
+  position: relative;
+  padding: clamp(160px, 26vh, 300px) 0;
+  background-color: var(--paper);
+  background-image: url("/photos/texture-creased-soft.webp"), var(--paper-grain);
+  background-size: cover, auto;
+  background-position: center, 0 0;
+  background-blend-mode: multiply, normal;
+  -webkit-mask-size: 100% 28px, 100% calc(100% - 54px), 100% 28px;
+  mask-size: 100% 28px, 100% calc(100% - 54px), 100% 28px;
+  -webkit-mask-position: top, center, bottom;
+  mask-position: top, center, bottom;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* 12 cols: 2 empty each side, polaroids span 2 */
+.albumGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(16px, 2vw, 32px);
+  row-gap: clamp(48px, 8vh, 96px);
+  padding: 0 clamp(16px, 2vw, 32px);
+}
+
+.polaroid:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* invisible until focused by keyboard */
+.turnKey {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border: 0;
+  background: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.turnKey:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--ink);
+  outline-offset: -6px;
+}
+
+.polaroid {
+  position: relative;
+  grid-column: span 2;
+  aspect-ratio: 0.82;
+  background: #f3f1ec;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.1));
+  container-type: inline-size;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.stickers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sticker {
+  position: absolute;
+  translate: -50% -50%;
+  font-size: 20cqw;
+  line-height: 1;
+  filter: blur(0.2px) saturate(0.92) drop-shadow(0 0.3cqw 0.4cqw rgb(0 0 0 / 0.28));
+}
+
+.polaroid:nth-child(4n + 1) {
+  grid-column: 3 / span 2;
+}
+
+/* phone: two per row */
+@media (orientation: portrait) {
+  .polaroid {
+    grid-column: span 5;
+  }
+
+  .polaroid:nth-child(4n + 1) {
+    grid-column: span 5;
+  }
+
+  .polaroid:nth-child(2n + 1) {
+    grid-column: 2 / span 5;
+  }
+}
+
+@media (orientation: landscape) {
+  .polaroid:nth-child(4n + 1):nth-last-child(3) {
+    grid-column: 4 / span 2;
+  }
+
+  .polaroid:nth-child(4n + 1):nth-last-child(2) {
+    grid-column: 5 / span 2;
+  }
+
+  .polaroid:nth-child(4n + 1):last-child {
+    grid-column: 6 / span 2;
+  }
+}
+
+.window {
+  position: absolute;
+  overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  scale: 1.08;
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .polaroid:hover .photo {
+    scale: 1;
+  }
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.caption {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-hand);
+  font-size: clamp(11px, 0.95vw, 18px);
+  line-height: 1;
+  white-space: nowrap;
+  color: #23253d;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+  rotate: -1.2deg;
+  filter: blur(0.25px);
+}
+
+/* letter */
+/* folds: Unsplash "Folded off-white paper texture", kept faint */
+.letter {
+  /* never shorter than the screen, so it always covers what is beneath */
+  height: auto;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(16px, 2vw, 32px);
+  align-items: center;
+  padding: clamp(320px, 60vh, 640px) clamp(16px, 2vw, 32px);
+  color: var(--ink);
+  /* --deckle is set from Objects.tsx */
+  background: none;
+  box-shadow: none;
+  filter: drop-shadow(0 18px 26px rgb(0 0 0 / 0.28));
+}
+
+.letter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--paper);
+  background-image: var(--paper-grain);
+  clip-path: var(--edge, var(--deckle-flat));
+  pointer-events: none;
+}
+
+.letter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/photos/paper-folded.webp") center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  clip-path: var(--edge, var(--deckle-flat));
+  pointer-events: none;
+}
+
+.letter .shade {
+  clip-path: var(--edge, var(--deckle-flat));
+}
+
+/* 12 cols, writing in the middle 6 */
+.letterBody {
+  position: relative;
+  grid-column: 4 / span 6;
+  rotate: -1.5deg;
+  font-family: var(--font-hand);
+  font-size: clamp(20px, 2.1vw, 34px);
+  line-height: 1.55;
+}
+
+/* fixed shape in the collage (data-pile is set by Table.tsx) */
+:global(html[data-pile]) .letter.letter {
+  width: 1280px;
+  padding: 480px 26px;
+  column-gap: 26px;
+}
+
+:global(html[data-pile]) .letterBody.letterBody {
+  grid-column: 4 / span 6;
+  font-size: 27px;
+}
+
+@media (orientation: portrait) {
+  .letter {
+    padding-top: clamp(96px, 16vh, 160px);
+    padding-bottom: clamp(96px, 16vh, 160px);
+  }
+
+  .letterBody {
+    grid-column: 2 / span 10;
+    font-size: 18px;
+  }
+}
+
+.salutation {
+  margin-bottom: 0.8em;
+}
+
+.paragraph + .paragraph {
+  margin-top: 0.6em;
+}
+
+.signoff {
+  margin-top: 1.2em;
+  text-align: right;
+}
+
+/* last postcard */
+/* shadow on each face, so it turns with the card */
+.lastPhoto {
+  perspective: 2400px;
+  box-shadow: none;
+}
+
+.flipper {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background-color: var(--paper-shade);
+  background-image: var(--paper-grain);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.1),
+    0 24px 50px -24px rgb(0 0 0 / 0.45);
+}
+
+/* grain per face so it turns with the card */
+.face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/photos/texture-grain.jpg") center / cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.lastFront {
+  transform: rotateY(180deg);
+  padding: 16px;
+}
+
+/* no invitation: the photo is the only side, face up */
+.lastPhoto[data-only-photo] .lastFront {
+  transform: none;
+}
+
+.lastFront img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* clear of the dock */
+.handwriting {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 96px;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: clamp(24px, 2.8vw, 44px);
+  line-height: 1.2;
+  color: #fff;
+}
+
+@media (orientation: portrait) {
+  .handwriting {
+    bottom: 84px;
+  }
+}
+
+/* sized in cq against the card itself, so it reads the same full screen and in the collage */
+.lastAsk {
+  container-type: size;
+  color: var(--ink);
+}
+
+.backGrid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 7fr 1px 5fr;
+  column-gap: 5cqw;
+  padding: 8cqh 7cqw;
+}
+
+.backNote {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+}
+
+.backDate {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.2cqw;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.ask {
+  place-self: center;
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 3.2cqw;
+  line-height: 1.4;
+  rotate: -1deg;
+}
+
+.backDivider {
+  background: var(--ink);
+  opacity: 0.25;
+}
+
+.backAddress {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6cqh;
+}
+
+.backHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: var(--font-sans);
+  font-size: 1.2cqw;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.stampBox {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 9.5cqw;
+  aspect-ratio: 0.8;
+  padding: 0.8cqw;
+  border: 1px dashed currentColor;
+  font-size: 0.8cqw;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.answer {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.answerHint {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-family: var(--font-sans);
+  font-size: 0.9cqw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+/* canvas is bigger than the stamp so the tilt isn't clipped */
+.approved {
+  position: absolute;
+  left: 22%;
+  top: -55%;
+  width: 90%;
+  aspect-ratio: 1.6;
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+  -webkit-mask-image: url("/photos/texture-grain.jpg");
+  mask-image: url("/photos/texture-grain.jpg");
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  mask-mode: luminance;
+  pointer-events: none;
+}
+
+.backRules {
+  display: grid;
+  gap: 2.4cqh;
+}
+
+.backRule {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 4.5cqh;
+  padding-bottom: 0.4cqh;
+}
+
+.backRuleLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.backName {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 2.6cqw;
+  line-height: 1;
+}
+
+/* tall card (phone): stacked, no divider */
+@container (aspect-ratio < 1) {
+  .backGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    row-gap: 4cqh;
+    padding: 11cqh 8cqw 14cqh;
+  }
+
+  .backDivider,
+  .backRule:nth-child(n + 3) {
+    display: none;
+  }
+
+  .backDate,
+  .backHead {
+    font-size: 3cqw;
+  }
+
+  .ask {
+    font-size: 7.5cqw;
+  }
+
+  .stampBox {
+    width: 20cqw;
+    padding: 1.6cqw;
+    font-size: 2cqw;
+  }
+
+  .answerHint {
+    font-size: 2.4cqw;
+  }
+
+  .approved {
+    top: -90%;
+  }
+
+  .backRule {
+    height: 5cqh;
+  }
+
+  .backName {
+    font-size: 6.5cqw;
+  }
+}
+
+.scattered {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  transform-origin: 0 0;
+}

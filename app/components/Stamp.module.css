@@ -1,0 +1,79 @@
+/* cqw = % of the stamp width */
+.root {
+  --paper-stamp: #fdfbf6;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 0.8;
+  container-type: inline-size;
+}
+
+.root[data-shape="square"] {
+  aspect-ratio: 1;
+}
+
+.sheet {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.paper {
+  fill: var(--paper-stamp);
+  fill-opacity: 0;
+}
+
+.texture {
+  mix-blend-mode: multiply;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.outline {
+  fill: none;
+  stroke: var(--paper-stamp);
+  stroke-width: 0.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.root [data-text] {
+  opacity: 0;
+}
+
+.inner {
+  position: absolute;
+  inset: 9%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 3cqw;
+}
+
+.row {
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  line-height: 1;
+  font-family: var(--font-serif);
+  font-size: 7.5cqw;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.row span {
+  display: inline-block;
+}
+
+.row .day {
+  font-size: 20cqw;
+  letter-spacing: 0;
+}
+
+.picture {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: block;
+}

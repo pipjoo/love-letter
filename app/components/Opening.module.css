@@ -1,0 +1,529 @@
+/* inside the envelope, sizes are cqw (% of envelope width) */
+
+.root {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  /* let the cursor through to polaroids tucked under the pile */
+  pointer-events: none;
+}
+
+.stage {
+  position: relative;
+  pointer-events: none;
+  width: min(86vw, 600px);
+  aspect-ratio: 1.6;
+  container-type: inline-size;
+}
+
+/* hidden from the first frame, before JS runs. The intro sets data-drawn. */
+.stage:not([data-drawn]) .flap,
+.stage:not([data-drawn]) .peekLetter,
+.stage:not([data-drawn]) .peekPhoto,
+.stage:not([data-drawn]) .card,
+.stage:not([data-drawn]) [data-rise] {
+  opacity: 0;
+}
+
+/* envelope front */
+.front {
+  all: unset;
+  pointer-events: auto;
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.front:disabled {
+  cursor: default;
+}
+
+.front:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 6px;
+}
+
+.textured {
+  background-color: var(--paper);
+  background-image: var(--paper-grain);
+}
+
+/* same grain file and strength as .face::after */
+.textured::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/photos/texture-grain.jpg") center / cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.paperFill {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.edgeSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.edge {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 0.45;
+  opacity: 0.85;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: max(6px, 1.4cqw);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(from var(--text) r g b / 0.42);
+}
+
+.from {
+  position: absolute;
+  top: 4cqw;
+  left: 4cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqw;
+}
+
+/* text-box trim, so `top` means the top of the capitals */
+.from span,
+.address .label,
+.address .toName {
+  text-box: trim-both cap alphabetic;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.fromName {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 3.8cqw;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+.stamps {
+  position: absolute;
+  z-index: 1;
+  top: 4cqw;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+}
+
+.stampSlot {
+  position: relative;
+}
+
+.postmark {
+  position: absolute;
+  z-index: 2;
+  top: 18.4cqw;
+  pointer-events: none;
+}
+
+/* address lines up with the name, not the label */
+.address {
+  position: absolute;
+  left: 4cqw;
+  bottom: 4cqw;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 1.4cqw;
+  align-items: start;
+}
+
+.from span,
+.address span {
+  display: block;
+}
+
+.toName {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 5.8cqw;
+  line-height: 1;
+}
+
+.toLine {
+  grid-column: 2;
+  display: block;
+  /* names are caps, no descenders: this is pure clear space */
+  margin-top: 1.8cqw;
+  font-family: var(--font-serif);
+  font-size: 2.1cqw;
+  line-height: 1;
+  text-box: trim-both cap alphabetic;
+  color: rgb(from var(--text) r g b / 0.58);
+}
+
+/* never shown, but the intro timing uses it */
+.hint {
+  display: none;
+  position: absolute;
+  z-index: 4;
+  top: calc(100% + 5cqw);
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: max(15px, 2.8cqw);
+  color: var(--paper);
+}
+
+/* back flap and contents */
+.flap {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+  transform-origin: top center;
+}
+
+.openFlap {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  width: 100%;
+  height: 62%;
+  visibility: hidden;
+}
+
+.flapFill {
+  position: absolute;
+  inset: 0;
+}
+
+.flap .flapFill {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.openFlap .flapFill {
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+}
+
+.openFlap svg,
+.flap svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.openFlap polygon,
+.flap polygon {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1;
+  stroke-opacity: 0.12;
+  vector-effect: non-scaling-stroke;
+}
+
+.peekLetter {
+  position: absolute;
+  z-index: 1;
+  left: 6%;
+  top: 4%;
+  width: 70%;
+  height: 92%;
+  background:
+    linear-gradient(to bottom, transparent 32%, rgb(0 0 0 / 0.06) 33%, transparent 34.5%),
+    var(--paper);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.05);
+}
+
+.peekPhoto {
+  position: absolute;
+  z-index: 1;
+  right: 9%;
+  top: 8%;
+  width: 24%;
+  aspect-ratio: 0.85;
+  padding: 1.4cqw 1.4cqw 5cqw;
+  background: #fdfdfb;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
+  transform: rotate(4deg);
+}
+
+.peekPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* postcard */
+/* screen-sized once landed, so px/vw here, not cqw */
+.card {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  /* 100vw would include the scrollbar */
+  width: var(--page-w, 100vw);
+  height: 100svh;
+  pointer-events: none;
+  outline: none;
+  visibility: hidden;
+}
+
+/* no shadow inside the envelope, it would leak past the edges */
+.stage:not([data-open="true"]) .face,
+.stage:not([data-open="true"]) .peekPhoto,
+.stage:not([data-open="true"]) .peekLetter {
+  box-shadow: none;
+}
+
+.card[data-landed="true"] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.card:focus-visible .cardInner {
+  outline: 2px solid var(--ink);
+  outline-offset: -6px;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  background-color: var(--paper);
+  background-image: var(--paper-grain);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.1),
+    0 24px 50px -24px rgb(0 0 0 / 0.45);
+}
+
+/* grain: Unsplash "A black and white photo of a snow covered ground", mid-grey for soft-light */
+.face::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/photos/texture-grain.jpg") center / cover;
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.cardFront {
+  padding: 16px;
+}
+
+.cardFront img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* flat at rest, so the text is sharp */
+.card[data-side="back"] .cardFront {
+  visibility: hidden;
+}
+
+.card[data-side="back"] .cardBack {
+  transform: none;
+}
+
+.frontCaption {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  /* dock: 24px from the bottom, 50px tall */
+  bottom: 96px;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: clamp(24px, 2.8vw, 44px);
+  line-height: 1.2;
+  color: #fff;
+  pointer-events: none;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  display: grid;
+  /* 7 : 5 */
+  grid-template-columns: 7fr 1px 5fr;
+  column-gap: clamp(32px, 5vw, 96px);
+  padding: clamp(40px, 8vh, 112px) clamp(40px, 7vw, 128px);
+  color: var(--ink);
+}
+
+/* tall screen: stacked, no divider or stamp box, two lines */
+@media (orientation: portrait) {
+  .cardBack {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    row-gap: clamp(24px, 4vh, 40px);
+    padding: clamp(40px, 9vh, 72px) clamp(28px, 8vw, 48px);
+  }
+
+  /* scoped to .cardBack to beat the base rules below */
+  .cardBack .divider,
+  .cardBack .cardHead,
+  .cardBack .rule:nth-child(n + 3) {
+    display: none;
+  }
+
+  .frontCaption {
+    bottom: 84px;
+    font-size: 6vw;
+  }
+}
+
+.noteSide {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 0;
+}
+
+.noteSide .note {
+  place-self: center;
+}
+
+.note {
+  max-width: 22em;
+  rotate: -2deg;
+  font-family: var(--font-hand);
+  font-size: clamp(19px, 1.9vw, 30px);
+  line-height: 1.55;
+}
+
+.noteDate {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.noteGreeting {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-bottom: 0.5em;
+}
+
+.noteGreeting span {
+  display: inline-block;
+}
+
+.heart {
+  width: 0.95em;
+  height: 0.95em;
+  flex: none;
+}
+
+.heart path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.notePara + .notePara {
+  margin-top: 0.5em;
+}
+
+.noteSign {
+  margin-top: 1em;
+  text-align: right;
+}
+
+.divider {
+  background: var(--ink);
+  opacity: 0.25;
+}
+
+.addressSide {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(32px, 6vh, 64px);
+}
+
+.cardHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.cardHead > span:first-child {
+  display: inline-block;
+}
+
+.stampBox {
+  width: clamp(96px, 9.5vw, 144px);
+  aspect-ratio: 0.8;
+  display: grid;
+  place-items: center;
+  padding: 10px;
+  border: 1px dashed currentColor;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.rules {
+  display: grid;
+  gap: clamp(14px, 2.4vh, 28px);
+}
+
+.rule {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: clamp(30px, 4.5vh, 48px);
+  padding-bottom: 4px;
+}
+
+.ruleLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.ruleName {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: clamp(24px, 2.6vw, 40px);
+  line-height: 1;
+}

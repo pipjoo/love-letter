@@ -1,0 +1,17 @@
+/node_modules
+/.next
+/out
+/build
+.DS_Store
+*.pem
+.env*.local
+.vercel
+next-env.d.ts
+.claude/settings.local.json
+
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# local editor and agent config
+.claude/

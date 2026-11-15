@@ -1,0 +1,159 @@
+.root {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 900;
+  translate: -50% calc(100% + 24px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    translate 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s;
+}
+
+.root[data-open="true"] {
+  translate: -50% 0;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid var(--paper);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+}
+
+/* grow from 0 width so the bar widens smoothly */
+.slot {
+  display: grid;
+  grid-template-columns: 1fr;
+  animation: slotIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.slot[data-leaving] {
+  animation: slotOut 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  pointer-events: none;
+}
+
+.slotInner {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes slotIn {
+  from {
+    grid-template-columns: 0fr;
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+
+@keyframes slotOut {
+  to {
+    grid-template-columns: 0fr;
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+
+.button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+
+.button[data-on] {
+  background: rgb(255 255 255 / 0.24);
+}
+
+.button:focus-visible {
+  outline: 1px solid var(--paper);
+  outline-offset: -4px;
+}
+
+/* 3/12 */
+.count {
+  flex: none;
+  min-width: 44px;
+  padding: 0 4px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* music bars */
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 14px;
+}
+
+.bars > span {
+  width: 2px;
+  height: 4px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: height 0.3s;
+}
+
+.button[data-playing="true"] .bars > span {
+  animation: bar 0.9s ease-in-out infinite alternate;
+}
+
+.button[data-playing="true"] .bars > span:nth-child(2) {
+  animation-delay: -0.45s;
+  animation-duration: 0.7s;
+}
+
+.button[data-playing="true"] .bars > span:nth-child(3) {
+  animation-delay: -0.2s;
+  animation-duration: 1.1s;
+}
+
+@keyframes bar {
+  from {
+    height: 3px;
+  }
+  to {
+    height: 14px;
+  }
+}
+
+@media (orientation: portrait) {
+  .root {
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slot,
+  .slot[data-leaving],
+  .button[data-playing="true"] .bars > span {
+    animation-duration: 0.01s;
+  }
+}

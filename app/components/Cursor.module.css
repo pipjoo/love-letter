@@ -1,0 +1,125 @@
+.hideNative,
+.hideNative * {
+  cursor: none !important;
+}
+
+.root {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.root[data-visible="true"] {
+  opacity: 1;
+}
+
+.ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  /* paper ring so it reads on the blue table and on paper */
+  border: 1px solid var(--paper);
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+  transition:
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s,
+    border-color 0.25s;
+}
+
+.root[data-mode="invert"] .ring {
+  width: 28px;
+  height: 28px;
+}
+
+.root[data-mode="open"] .ring {
+  width: 76px;
+  height: 76px;
+  background: var(--ink);
+}
+
+.root[data-mode="prev"] .ring,
+.root[data-mode="next"] .ring {
+  width: 64px;
+  height: 64px;
+}
+
+.arrow {
+  grid-area: 1 / 1;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.root[data-mode="prev"] .arrow,
+.root[data-mode="next"] .arrow {
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+.root[data-mode="prev"] .arrow {
+  transform: scaleX(-1);
+}
+
+.label {
+  grid-area: 1 / 1;
+}
+
+.label[data-emoji] {
+  font-size: 30px;
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  /* old and new label share one grid cell */
+  display: grid;
+  justify-items: center;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.label > span {
+  grid-area: 1 / 1;
+}
+
+.rollIn {
+  animation: rollIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rollOut {
+  animation: rollOut 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rollIn {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes rollOut {
+  to {
+    transform: translateY(-110%);
+  }
+}
+
+.root[data-mode="open"] .label {
+  opacity: 1;
+  transition-delay: 0.12s;
+}

@@ -1,0 +1,36 @@
+.root {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+}
+
+.root :global(.pm-line) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.root text {
+  opacity: 0;
+}
+
+.city {
+  font-family: var(--font-serif);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  fill: currentColor;
+}
+
+.year {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  fill: currentColor;
+}

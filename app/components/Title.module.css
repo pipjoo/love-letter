@@ -1,0 +1,45 @@
+/* same position on the card and in the header, so the swap doesn't jump */
+.root {
+  position: absolute;
+  top: calc(16px + var(--title-inset));
+  left: calc(16px + var(--title-inset));
+  right: calc(16px + var(--title-inset));
+  --title-inset: clamp(16px, 2.5vw, 40px);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 32px);
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 4vw, 64px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #fff;
+  pointer-events: none;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.8;
+}
+
+.header {
+  z-index: 20;
+  visibility: hidden;
+  pointer-events: auto;
+  cursor: pointer;
+  /* dark on paper, light on photos */
+  mix-blend-mode: difference;
+}
+
+.header:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 8px;
+}
