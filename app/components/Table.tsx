@@ -11,6 +11,7 @@ import { content } from "../content";
 import Opening, { type Landed } from "./Opening";
 import { Album, LastPhoto, Letter, Polaroid, scatterClass } from "./Objects";
 import Title from "./Title";
+import { track } from "../lib/track";
 import styles from "./Table.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -156,11 +157,16 @@ export default function Table() {
     });
 
     let collageActive = false;
+    let collageSeen = false;
     const setCollageActive = (on: boolean) => {
       if (on === collageActive) return;
       collageActive = on;
       if (!on) resetOffsets();
       if (on) document.documentElement.dataset.collage = "true";
+      if (on && !collageSeen) {
+        collageSeen = true;
+        track("collage_reached");
+      }
       else delete document.documentElement.dataset.collage;
       pieces.forEach((p) => {
         if (on) {

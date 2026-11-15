@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type Lenis from "lenis";
 import { content } from "../content";
 import { holdScroll } from "../lib/scroll";
+import { track } from "../lib/track";
 import { useStampZoom } from "../lib/stampZoom";
 import Stamp from "./Stamp";
 import Postmark from "./Postmark";
@@ -197,6 +198,7 @@ export default function Opening({ onLanded }: { onLanded?: (els: Landed) => void
   const open = () => {
     if (!ready || opened.current) return;
     opened.current = true;
+    track("envelope_open");
     window.dispatchEvent(new Event("letter:open"));
     stage.current!.dataset.open = "true";
     const H = stage.current!.offsetHeight;

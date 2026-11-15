@@ -94,6 +94,12 @@ Do not touch components for content changes.
 2. The preview image is drawn from `content.ts` at build time: the envelope with the names, stamps and postmark. Nothing else to do.
 3. On a host other than Vercel, set the environment variable `NEXT_PUBLIC_SITE_URL` to the site's address, for example `https://our-letter.com`.
 
+### Recipe: add analytics
+
+1. Set the environment variable `NEXT_PUBLIC_GTM_ID` (Google Tag Manager, `GTM-XXXXXXX`) on the host. Nothing to change in code.
+2. Leave it unset for no analytics. That is the default.
+3. New tracked moments go through `track()` in `app/lib/track.ts`.
+
 ### Recipe: change the footer credit
 
 1. `colophon` credits the template's author. Keep it unless the user asks to change it.

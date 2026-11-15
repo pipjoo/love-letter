@@ -10,6 +10,7 @@ import { useStickers } from "../lib/stickers";
 import { approve, readApproval, useApproval } from "../lib/approve";
 import { useDockItem } from "../lib/dock";
 import { holdScroll } from "../lib/scroll";
+import { track } from "../lib/track";
 import { canShareFiles } from "../lib/share";
 import { SaveButton, ShareButton } from "./FileButtons";
 import { drawStamp, renderPostcard } from "../lib/postcardImage";
@@ -286,6 +287,7 @@ export const LastPhoto = forwardRef<HTMLDivElement>(function LastPhoto(_, ref) {
     if (approval) return;
     slam.current = true;
     approve();
+    track("invitation_approved");
   };
 
   // in the collage the dock belongs to Capture
@@ -297,9 +299,9 @@ export const LastPhoto = forwardRef<HTMLDivElement>(function LastPhoto(_, ref) {
   useDockItem(
     "postcard-share",
     30,
-    writingUp && approval && canShareFiles() ? <ShareButton make={postcardFile} label={shareHint} text={shareText} /> : null,
+    writingUp && approval && canShareFiles() ? <ShareButton make={postcardFile} label={shareHint} text={shareText} what="postcard" /> : null,
   );
-  useDockItem("postcard-save", 31, writingUp ? <SaveButton make={postcardFile} label={saveHint} /> : null);
+  useDockItem("postcard-save", 31, writingUp ? <SaveButton make={postcardFile} label={saveHint} what="postcard" /> : null);
 
   return (
     <div
@@ -396,7 +398,7 @@ function ReplyButton({ via }: { via: "whatsapp" | "email" }) {
       ? `https://wa.me/${replyTo.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(replyText)}`
       : `mailto:${replyTo.email}?subject=${encodeURIComponent(replySubject)}&body=${encodeURIComponent(replyText)}`;
   return (
-    <a className={dock.button} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label}>
+    <a className={dock.button} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} onClick={() => track("reply_click", { via })}>
       {via === "whatsapp" ? (
         <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
           <path

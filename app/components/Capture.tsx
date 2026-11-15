@@ -117,8 +117,8 @@ export default function Capture() {
       </button>
     ) : null,
   );
-  useDockItem("capture-share", 41, on && canShareFiles() ? <ShareButton make={shoot} label={captureShareHint} /> : null);
-  useDockItem("capture-save", 42, on ? <SaveButton make={shoot} label={captureSaveHint} /> : null);
+  useDockItem("capture-share", 41, on && canShareFiles() ? <ShareButton make={shoot} label={captureShareHint} what="collage" /> : null);
+  useDockItem("capture-save", 42, on ? <SaveButton make={shoot} label={captureSaveHint} what="collage" /> : null);
   useDockItem(
     "capture-close",
     45,

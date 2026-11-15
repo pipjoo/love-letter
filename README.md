@@ -60,7 +60,17 @@ On another host, set the environment variable `NEXT_PUBLIC_SITE_URL` to your sit
 
 Your site is public to anyone with the link. Only use photos and words you are comfortable sharing.
 
-Stickers and the "approved" stamp are saved in the visitor's own browser. Nothing is sent anywhere.
+Stickers and the "approved" stamp are saved in the visitor's own browser. Out of the box nothing is sent anywhere: there is no analytics unless you add it.
+
+## Optional: analytics
+
+Set the environment variable `NEXT_PUBLIC_GTM_ID` to your Google Tag Manager container ID (`GTM-XXXXXXX`) and the page loads GTM. It also pushes these events to the `dataLayer`, ready for a GA4 tag:
+
+- `envelope_open`, `collage_reached`, `invitation_approved`
+- `reply_click` with `via` (`email` or `whatsapp`)
+- `image_save` and `image_share` with `what` (`postcard` or `collage`)
+
+Leave it unset and no Google script is loaded.
 
 ## License and credits
 
