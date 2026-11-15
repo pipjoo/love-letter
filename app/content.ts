@@ -1,11 +1,12 @@
 // Every word and photo on the page lives here. Photos go in /public/photos.
-// The sample names and text are made up.
+// The sample is a made-up couple: Sam in Jakarta asks Sophie in Bangkok to
+// meet him in Bali for their anniversary. Photos from Pexels.
 
 export const content = {
   // tab title and link preview
   meta: {
-    title: "Sophie — Happy Birthday",
-    description: "A little corner of the internet, made with love.",
+    title: "Happy Anniversary, Sophie",
+    description: "A letter from Sam, with a question inside.",
   },
 
   // table: background. paper: envelope and cards. ink: postmark and engravings. text: writing.
@@ -21,7 +22,7 @@ export const content = {
   envelope: {
     to: "Sophie",
     // city and postal code only
-    toAddress: "Jakarta, 12160",
+    toAddress: "Bangkok, 10330",
     from: "Sam",
     toLabel: "To",
     fromLabel: "From",
@@ -33,29 +34,28 @@ export const content = {
     backHint: "back",
     stamp: {
       // YYYY-MM-DD, e.g. the birthday. Empty = the day the page is opened.
-      date: "",
+      date: "2026-11-14",
       // focus: 0 keeps the top of the photo, 1 the bottom
       photos: [
-        { src: "/photos/stamp-tower.webp", focus: 0.4 },
-        { src: "/photos/stamp-fuji.webp", focus: 0.66 },
+        { src: "/photos/stamp-garuda.webp", focus: 0.4 },
+        { src: "/photos/stamp-wisnu.webp", focus: 0.15 },
       ],
     },
   },
 
   // stamps show the country, the postmark the city
   destination: {
-    city: "Seoul",
-    country: "Korea",
+    city: "Bali",
+    country: "Indonesia",
   },
 
   postcard: {
-    // sample photo: Pexels (pexels.com/photo/9937460)
-    photo: "/photos/postcard-town.webp",
-    alt: "A lakeside town with red roofs, seen from above",
+    photo: "/photos/postcard-bali.webp",
+    alt: "Cliffs and turquoise sea on the coast of Bali, seen from above",
     // left and right at the top; becomes the header on scroll
-    title: ["Dear Sophie", "Happy Birthday"],
+    title: ["Dear Sophie", "Happy Anniversary"],
     // handwritten on the photo
-    caption: "the place you always want to go",
+    caption: "you, me, this coast",
     // cursor label
     flipHint: "Flip",
     // screen readers
@@ -64,13 +64,13 @@ export const content = {
     // on the back of both postcards
     cardLabel: "Post Card",
     boxLabel: "Place stamp here",
-    // shown after the country, e.g. "Korea, 14 November 2026"
+    // shown after the country, e.g. "Indonesia, 14 November 2026"
     date: "14 November 2026",
     greeting: "My dearest Sophie,",
     message: [
-      "Happy birthday to the girl who makes every ordinary day feel like somewhere worth travelling to.",
-      "One day I'll take you to this little town by the water, and we'll get lost in its streets until the sun goes down.",
-      "Until then, I've hidden a few more things in this envelope. Keep reading.",
+      "Happy anniversary. One year of late calls between Jakarta and Bangkok, and I still look forward to every one.",
+      "This is the coast I keep looking at. I want to stand there with you, not send you a picture of it.",
+      "I've hidden a few more things in this envelope. Keep reading.",
     ],
     signoff: "Forever yours, Sam",
   },
@@ -87,18 +87,18 @@ export const content = {
   // Polaroids, four per row (two on phones). Twelve = three rows.
   gallery: {
     items: [
-      { src: "/photos/sample-2.svg", alt: "A moment together", caption: "our first trip" },
-      { src: "/photos/sample-3.svg", alt: "A moment together", caption: "rainy sunday" },
-      { src: "/photos/sample-4.svg", alt: "A moment together", caption: "that laugh" },
-      { src: "/photos/sample-5.svg", alt: "A moment together", caption: "late dinner" },
-      { src: "/photos/sample-6.svg", alt: "A moment together", caption: "the beach" },
-      { src: "/photos/sample-7.svg", alt: "A moment together", caption: "us, again" },
-      { src: "/photos/sample-8.svg", alt: "A moment together", caption: "home" },
-      { src: "/photos/sample-9.svg", alt: "A moment together", caption: "always" },
-      { src: "/photos/sample-2.svg", alt: "A moment together", caption: "slow mornings" },
-      { src: "/photos/sample-4.svg", alt: "A moment together", caption: "your birthday" },
-      { src: "/photos/sample-6.svg", alt: "A moment together", caption: "the long way home" },
-      { src: "/photos/sample-8.svg", alt: "A moment together", caption: "next year" },
+      { src: "/photos/album-01.webp", alt: "A couple in graduation gowns walking across a street", caption: "graduation day" },
+      { src: "/photos/album-02.webp", alt: "A man in a red gown hugging a woman in sunglasses", caption: "the hug after" },
+      { src: "/photos/album-03.webp", alt: "A couple in gowns crossing a street, seen from behind", caption: "walking you home" },
+      { src: "/photos/album-04.webp", alt: "A little girl grinning at the camera", caption: "you, age five" },
+      { src: "/photos/album-05.webp", alt: "A couple walking down a sunny street", caption: "our first trip" },
+      { src: "/photos/album-06.webp", alt: "A wrist with a gold and blue bracelet", caption: "the bracelet" },
+      { src: "/photos/album-07.webp", alt: "A woman laughing, in black and white", caption: "that laugh" },
+      { src: "/photos/album-08.webp", alt: "Two people holding hands on a street", caption: "not letting go" },
+      { src: "/photos/album-09.webp", alt: "A woman sitting with her arms around her knees", caption: "missing me?" },
+      { src: "/photos/album-10.webp", alt: "A woman smiling behind a glass of red wine", caption: "late dinner" },
+      { src: "/photos/album-11.webp", alt: "A woman with short hair walking away", caption: "back to bangkok" },
+      { src: "/photos/album-12.webp", alt: "A bouquet of roses in a dim room", caption: "one year" },
     ],
     // cursor label and button names
     viewHint: "see",
@@ -115,27 +115,27 @@ export const content = {
   loveLetter: {
     salutation: "Dear Sophie,",
     paragraphs: [
-      "There are things I don't say often enough, so let me write them down where they'll stay.",
-      "You are my calm on the loud days and my favorite person on the quiet ones.",
-      "So on your birthday, this is my promise: to keep choosing you, and to keep showing up.",
+      "A year ago I didn't know a phone screen could feel this close. Now I plan my evenings around your voice.",
+      "Thank you for staying up late, for the voice notes on bad days, and for never letting the distance become an excuse.",
+      "I don't want to spend another anniversary on a video call. So I have one more thing to ask.",
     ],
     signoff: "Sam",
   },
 
   // last photo, turned into a postcard written back
   lastPhoto: {
-    src: "/photos/sample-9.svg",
-    alt: "Sophie and Sam",
-    caption: "with love, always",
+    src: "/photos/last-bali-beach.webp",
+    alt: "Blue umbrellas along a beach in Bali, seen from above",
+    caption: "see you on this beach",
     // the invitation, answered with an "approved" stamp. Empty = just the photo.
-    ask: "Let's finally see Seoul together.",
+    ask: "Meet me in Bali for our anniversary?",
     stampHint: "stamp",
     stampLabel: "Approved",
     answerHint: "Stamp here to say yes",
     shareHint: "Share",
     saveHint: "Save",
-    shareText: "Approved. Let's finally see Seoul together.",
-    fileName: "seoul-approved.png",
+    shareText: "Approved. See you in Bali.",
+    fileName: "bali-approved.png",
     // WhatsApp number with country code (6281234567890) and/or email.
     // Empty hides the button. Links carry text only, the image goes by Save or Share.
     replyTo: {
@@ -159,7 +159,7 @@ export const content = {
   // SoundCloud link (soundcloud). Leave both empty for no music.
   music: {
     src: "",
-    soundcloud: "",
+    soundcloud: "https://soundcloud.com/petra-be/adele-lovesong-instrumental",
     playHint: "Play music",
     pauseHint: "Pause music",
   },

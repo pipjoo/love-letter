@@ -66,11 +66,11 @@ Stickers and the "approved" stamp are saved in the visitor's own browser. Nothin
 
 The code is [MIT](LICENSE). The images in `public/` keep their own licenses:
 
-- Postcard photo: [Pexels](https://www.pexels.com/photo/9937460/).
-- Stamp photos (Tokyo Tower, Mount Fuji): Unsplash and Pexels.
+- Sample photos, all from Pexels: the [Bali coast](https://www.pexels.com/photo/34356770/) on the postcard, the [beach](https://www.pexels.com/photo/34609172/) on the last postcard, the [Wisnu](https://www.pexels.com/photo/34955123/) and [Garuda](https://www.pexels.com/photo/13449172/) statues on the stamps, and the album photos ([1](https://www.pexels.com/photo/25643178/), [2](https://www.pexels.com/photo/25643191/), [3](https://www.pexels.com/photo/25643174/), [4](https://www.pexels.com/photo/33769367/), [5](https://www.pexels.com/photo/25643190/), [6](https://www.pexels.com/photo/37401949/), [7](https://www.pexels.com/photo/30036877/), [8](https://www.pexels.com/photo/25643186/), [9](https://www.pexels.com/photo/37401736/), [10](https://www.pexels.com/photo/21972317/), [11](https://www.pexels.com/photo/24960091/), [12](https://www.pexels.com/photo/18102249/)).
 - Textures from Unsplash: [blue speckles](https://unsplash.com/photos/-cJjkNo8r7k) on the table, [snow](https://unsplash.com/photos/tCm7ZKIt-yE) as print grain, [creased paper](https://unsplash.com/photos/yBAp_IVJTy0) on the album, "Folded off-white paper texture" on the letter, and [white wall paint](https://unsplash.com/photos/MjehAOr30n8) on the stamps.
+- Song in the sample: [Lovesong, instrumental](https://soundcloud.com/petra-be/adele-lovesong-instrumental) by petra-be, played through SoundCloud's own player. Nothing is copied into the repository.
 - Flowers (sunflower, daisy, apple blossom): Unsplash, cut out on a transparent background.
-- Polaroid frame and sample photos: made for this template.
+- Polaroid frame: made for this template.
 - Fonts: Instrument Serif, Instrument Sans and Cedarville Cursive, from Google Fonts under the SIL Open Font License.
 
 The Unsplash and Pexels licenses allow free use without attribution. Your own photos stay yours.

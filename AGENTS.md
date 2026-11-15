@@ -17,16 +17,18 @@ Do not touch components for content changes.
 1. Open `app/content.ts`.
 2. Replace every `Sophie` with the recipient's name (title, envelope, letter, last photo).
 3. Replace every `Sam` with the sender's name.
-4. Also change the reply address, see "Recipe: where the answer goes". Otherwise answers go to the template's author.
+4. Change `envelope.toAddress` to the recipient's city and postal code.
+5. Also change the reply address, see "Recipe: where the answer goes". Otherwise answers go to the template's author.
 
 ### Recipe: change the photos
 
 1. Ask the user to put their photos in `public/photos/`. JPG, PNG or WebP all work.
-2. In `app/content.ts`, replace each `/photos/sample-N.svg` path in `gallery.items` with the new file name, for example `/photos/beach.jpg`.
+2. In `app/content.ts`, replace each `/photos/album-NN.webp` path in `gallery.items` with the new file name, for example `/photos/beach.jpg`.
 3. Any number of photos works. Add or remove items freely.
 4. Update each `alt` with a short description, and each `caption` with a few handwritten words.
-5. Change `postcard.photo` and `lastPhoto.src` the same way.
-6. Keep each photo under about 400 KB. Photos straight from a phone make the page slow.
+5. Polaroids are almost square. Crop tall photos so faces stay in.
+6. Change `postcard.photo` and `lastPhoto.src` the same way.
+7. Keep each photo under about 400 KB. Photos straight from a phone make the page slow.
 
 ### Recipe: change the stamps
 
