@@ -22,21 +22,24 @@ const TILTS = [-1, 0.8, -0.6, 1, 0.7, -0.9, 1, -0.7, 0.6, -1, 0.9, -0.5];
 // frame image + photo window in %. Without the frame the paper polaroid still works.
 const FRAMES = [{ src: "/frames/polaroid.webp", hole: { left: 6.64, top: 6.19, width: 87.5, height: 73.23 } }];
 
+// Album polaroids only. The loose collage copies also pass under the cursor
+// while the view pulls back, before data-collage is set, and kept a 3D tilt.
+const inAlbum = (el: HTMLElement) => !!el.closest("[class*='albumGrid']");
+
 function tiltToward(e: React.PointerEvent<HTMLElement>) {
-  if (e.pointerType !== "mouse" || document.documentElement.dataset.collage) return;
   const el = e.currentTarget;
+  if (e.pointerType !== "mouse" || document.documentElement.dataset.collage || !inAlbum(el)) return;
   const r = el.getBoundingClientRect();
   const nx = (e.clientX - r.left) / r.width - 0.5;
   const ny = (e.clientY - r.top) / r.height - 0.5;
   gsap.to(el, { rotationY: nx * 14, rotationX: -ny * 14, transformPerspective: 700, duration: 0.5, ease: "power3.out", overwrite: "auto" });
 }
 
-// album: drop the 3D transform when flat so the photo is sharp again.
-// loose collage copies keep theirs, it holds their place.
+// drop the 3D transform when flat so the photo is sharp again
 function settle(e: React.PointerEvent<HTMLElement>) {
   const el = e.currentTarget;
-  const inAlbum = !!el.closest("[class*='albumGrid']");
-  gsap.to(el, { rotationY: 0, rotationX: 0, duration: 0.6, ease: "power3.out", overwrite: "auto", ...(inAlbum ? { clearProps: "transform" } : {}) });
+  if (!inAlbum(el)) return;
+  gsap.to(el, { rotationY: 0, rotationX: 0, duration: 0.6, ease: "power3.out", overwrite: "auto", clearProps: "transform" });
 }
 
 function tornEdge(seed: number, flip: boolean) {

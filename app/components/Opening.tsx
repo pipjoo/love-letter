@@ -81,6 +81,11 @@ export default function Opening({ onLanded }: { onLanded?: (els: Landed) => void
     if (drawn.current.timeline && drawn.current.stamps >= count) setReady(true);
   };
 
+  // the intro is drawn: heavy work that waited for it (the music player) can start
+  useEffect(() => {
+    if (ready) window.dispatchEvent(new Event("letter:ready"));
+  }, [ready]);
+
   useEffect(() => {
     // hold input instead of overflow:hidden, so the page width doesn't change
     document.documentElement.dataset.locked = "true";
@@ -328,6 +333,7 @@ export default function Opening({ onLanded }: { onLanded?: (els: Landed) => void
               <p className={styles.frontCaption} ref={frontCaption}>
                 {postcard.caption}
               </p>
+              <i className={styles.dim} data-dim aria-hidden="true" />
             </div>
             <div className={`${styles.face} ${styles.cardBack}`}>
               <div className={styles.noteSide}>
@@ -373,6 +379,7 @@ export default function Opening({ onLanded }: { onLanded?: (els: Landed) => void
                   ))}
                 </div>
               </div>
+              <i className={styles.dim} data-dim aria-hidden="true" />
             </div>
           </div>
         </div>

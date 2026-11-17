@@ -334,6 +334,17 @@
   pointer-events: none;
 }
 
+/* darkens the card as the album lands on it. Opacity, not filter: brightness,
+   so the face isn't re-filtered on every scroll frame. 0.05 black = brightness(0.95). */
+.dim {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .cardFront {
   padding: 16px;
 }

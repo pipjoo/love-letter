@@ -10,6 +10,15 @@
     0 1px 2px rgb(0 0 0 / 0.1),
     0 24px 50px -24px rgb(0 0 0 / 0.45);
   visibility: hidden;
+  /* moved by the scroll timeline: own layer, so the drop-shadow isn't redrawn every frame */
+  will-change: transform;
+}
+
+/* In the collage the layer is dropped, so the shrunk piece re-rasters at its
+   real size. Kept, the text was drawn full size and scaled down, and looked jagged. */
+:global(html[data-collage]) .object,
+:global(html[data-collage]) .scattered {
+  will-change: auto;
 }
 
 /* darkens as more lands on top */
@@ -102,7 +111,8 @@
   translate: -50% -50%;
   font-size: 20cqw;
   line-height: 1;
-  filter: blur(0.2px) saturate(0.92) drop-shadow(0 0.3cqw 0.4cqw rgb(0 0 0 / 0.28));
+  /* text-shadow follows the emoji like drop-shadow did, without a filter pass */
+  text-shadow: 0 0.3cqw 0.4cqw rgb(0 0 0 / 0.28);
 }
 
 .polaroid:nth-child(4n + 1) {
@@ -543,4 +553,5 @@
   top: 0;
   visibility: hidden;
   transform-origin: 0 0;
+  will-change: transform;
 }

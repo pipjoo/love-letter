@@ -37,15 +37,25 @@ export default function Music() {
 
   useEffect(() => {
     if (!src && !soundcloud) return;
-    const p = soundcloud ? soundCloudPlayer(soundcloud, setPlaying) : filePlayer(src, setPlaying);
-    player.current = p;
-    p.setVolume(0);
+    // The player loads once the intro is drawn, not with the page: the SoundCloud
+    // widget is a ~150 ms script that would stutter the intro on phones.
+    // The envelope can't be opened before then, so the player is ready in time.
+    let p: Player | null = null;
+    const load = () => {
+      if (p) return p;
+      p = soundcloud ? soundCloudPlayer(soundcloud, setPlaying) : filePlayer(src, setPlaying);
+      player.current = p;
+      p.setVolume(0);
+      return p;
+    };
 
     const onOpen = () => {
+      load();
       setStarted(true);
       fadeIn();
     };
     const onVisibility = () => {
+      if (!p) return;
       if (document.hidden) p.pause();
       else if (wanted.current) fadeIn();
     };
@@ -53,11 +63,13 @@ export default function Music() {
       if (wanted.current) fadeOut();
     };
 
+    window.addEventListener("letter:ready", load);
     window.addEventListener("letter:open", onOpen);
     window.addEventListener("letter:leave", onLeave);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      p.destroy();
+      p?.destroy();
+      window.removeEventListener("letter:ready", load);
       window.removeEventListener("letter:open", onOpen);
       window.removeEventListener("letter:leave", onLeave);
       document.removeEventListener("visibilitychange", onVisibility);

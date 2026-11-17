@@ -88,6 +88,11 @@
   touch-action: none;
   user-select: none;
   filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.25));
+  will-change: transform;
+}
+
+:global(html[data-collage]) .scatter > .flower {
+  will-change: auto;
 }
 
 /* tucked under the pile */

@@ -128,7 +128,9 @@ export default function Table() {
     // the landed card is pinned to the corner
     const cardX = Number(gsap.getProperty(card, "x")) || 0;
     const cardY = Number(gsap.getProperty(card, "y")) || 0;
-    const faces = card.querySelectorAll("[class*='face']");
+    // one black overlay per card face, faded in place of filter: brightness
+    const dims = card.querySelectorAll("[data-dim]");
+    const DIM = 0.05;
 
     // Every tween uses fromTo. With only `to`, a refresh mid-scroll records the
     // current (shrunk, darkened) state as the start, and scrolling back breaks.
@@ -247,7 +249,7 @@ export default function Table() {
       });
       const covered = pile[pile.length - 1];
       if (covered === card) {
-        tl.fromTo(faces, { filter: "brightness(1)" }, { filter: "brightness(0.95)", duration: ENTER, ease: "none" }, at);
+        tl.fromTo(dims, { opacity: 0 }, { opacity: DIM, duration: ENTER, ease: "none" }, at);
       } else {
         const s = shade(covered);
         if (s) tl.fromTo(s, { opacity: 0 }, { opacity: SHADE, duration: ENTER, ease: "none" }, at);
@@ -295,7 +297,7 @@ export default function Table() {
         C,
       )
       .fromTo(card, { height: () => H() }, { height: cardH, duration: 0.01 }, C - 0.02)
-      .fromTo(faces, { filter: "brightness(0.95)" }, { filter: "brightness(1)", duration: COLLAGE, ease: "none" }, C)
+      .fromTo(dims, { opacity: DIM }, { opacity: 0, duration: COLLAGE, ease: "none" }, C)
       // blend-mode over blue turns mustard, so stop inverting once the table shows
       .fromTo(header.current, { color: "#fff" }, { color: paper, duration: 0.8, ease: "none" }, C + 0.2)
       .fromTo(header.current, { mixBlendMode: "difference" }, { mixBlendMode: "normal", duration: 0.01 }, C + 0.5)
@@ -387,9 +389,7 @@ export default function Table() {
       );
     });
 
-    // a short still moment before the page ends
-    tl.to({}, { duration: 1 }, C + COLLAGE);
-
+    // no hold at the end: the page stops as the last piece lands
     total = tl.duration();
     ScrollTrigger.refresh();
     // the pin made the page taller
